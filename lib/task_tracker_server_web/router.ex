@@ -7,6 +7,8 @@ defmodule TaskTrackerServerWeb.Router do
 
   scope "/api", TaskTrackerServerWeb do
     pipe_through :api
+
+    resources "/customers", CustomerController, only: [:index, :show, :create, :update, :delete]
   end
 
   # Enables LiveDashboard only for development
