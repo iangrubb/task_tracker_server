@@ -4,6 +4,7 @@ defmodule TaskTrackerServer.Customers.Customer do
 
   schema "customers" do
     field :name, :string
+    has_many :projects, TaskTrackerServer.Projects.Project
 
     timestamps()
   end

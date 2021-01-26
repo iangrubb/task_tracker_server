@@ -9,6 +9,9 @@ defmodule TaskTrackerServerWeb.Router do
     pipe_through :api
 
     resources "/customers", CustomerController, only: [:index, :show, :create, :update, :delete]
+    resources "/projects", ProjectController, only: [:index, :show, :create, :update, :delete]
+    resources "/tasks", TaskController, only: [:index, :show, :create, :update, :delete]
+
   end
 
   # Enables LiveDashboard only for development
