@@ -11,7 +11,8 @@ defmodule TaskTrackerServerWeb.Router do
     resources "/customers", CustomerController, only: [:index, :show, :create, :update, :delete]
     resources "/projects", ProjectController, only: [:index, :show, :create, :update, :delete]
     resources "/tasks", TaskController, only: [:index, :show, :create, :update, :delete]
-    resources "/task_logs", TaskLogController, only: [:show, :create]
+    resources "/task_logs", TaskLogController, only: [:index, :show, :create]
+    resources "/users", UserController, only: [:index, :show]
   end
 
   # Enables LiveDashboard only for development

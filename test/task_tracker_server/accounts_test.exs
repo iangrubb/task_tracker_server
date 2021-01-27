@@ -6,9 +6,9 @@ defmodule TaskTrackerServer.AccountsTest do
   describe "users" do
     alias TaskTrackerServer.Accounts.User
 
-    @valid_attrs %{name: "some name", password_hash_string: "some password_hash_string"}
-    @update_attrs %{name: "some updated name", password_hash_string: "some updated password_hash_string"}
-    @invalid_attrs %{name: nil, password_hash_string: nil}
+    @valid_attrs %{name: "some name", password_hash: "some password_hash"}
+    @update_attrs %{name: "some updated name", password_hash: "some updated password_hash"}
+    @invalid_attrs %{name: nil, password_hash: nil}
 
     def user_fixture(attrs \\ %{}) do
       {:ok, user} =
@@ -32,7 +32,7 @@ defmodule TaskTrackerServer.AccountsTest do
     test "create_user/1 with valid data creates a user" do
       assert {:ok, %User{} = user} = Accounts.create_user(@valid_attrs)
       assert user.name == "some name"
-      assert user.password_hash_string == "some password_hash_string"
+      assert user.password_hash == "some password_hash"
     end
 
     test "create_user/1 with invalid data returns error changeset" do
@@ -43,7 +43,7 @@ defmodule TaskTrackerServer.AccountsTest do
       user = user_fixture()
       assert {:ok, %User{} = user} = Accounts.update_user(user, @update_attrs)
       assert user.name == "some updated name"
-      assert user.password_hash_string == "some updated password_hash_string"
+      assert user.password_hash == "some updated password_hash"
     end
 
     test "update_user/2 with invalid data returns error changeset" do

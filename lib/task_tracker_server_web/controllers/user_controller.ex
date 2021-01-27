@@ -1,15 +1,15 @@
 defmodule TaskTrackerServerWeb.UserController do
   use TaskTrackerServerWeb, :controller
 
-  # alias TaskTrackerServer.Accounts
-  # alias TaskTrackerServer.Accounts.User
+  alias TaskTrackerServer.Accounts
+  alias TaskTrackerServer.Accounts.User
 
   action_fallback TaskTrackerServerWeb.FallbackController
 
-  # def index(conn, _params) do
-  #   users = Accounts.list_users()
-  #   render(conn, "index.json", users: users)
-  # end
+  def index(conn, _params) do
+    users = Accounts.list_users()
+    render(conn, "index.json", users: users)
+  end
 
   # def create(conn, %{"user" => user_params}) do
   #   with {:ok, %User{} = user} <- Accounts.create_user(user_params) do
@@ -20,10 +20,10 @@ defmodule TaskTrackerServerWeb.UserController do
   #   end
   # end
 
-  # def show(conn, %{"id" => id}) do
-  #   user = Accounts.get_user!(id)
-  #   render(conn, "show.json", user: user)
-  # end
+  def show(conn, %{"id" => id}) do
+    user = Accounts.get_user!(id)
+    render(conn, "show.json", user: user)
+  end
 
   # def update(conn, %{"id" => id, "user" => user_params}) do
   #   user = Accounts.get_user!(id)

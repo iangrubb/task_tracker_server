@@ -6,13 +6,13 @@ defmodule TaskTrackerServerWeb.UserControllerTest do
 
   @create_attrs %{
     name: "some name",
-    password_hash_string: "some password_hash_string"
+    password_hash: "some password_hash"
   }
   @update_attrs %{
     name: "some updated name",
-    password_hash_string: "some updated password_hash_string"
+    password_hash: "some updated password_hash"
   }
-  @invalid_attrs %{name: nil, password_hash_string: nil}
+  @invalid_attrs %{name: nil, password_hash: nil}
 
   def fixture(:user) do
     {:ok, user} = Accounts.create_user(@create_attrs)
@@ -40,7 +40,7 @@ defmodule TaskTrackerServerWeb.UserControllerTest do
       assert %{
                "id" => id,
                "name" => "some name",
-               "password_hash_string" => "some password_hash_string"
+               "password_hash" => "some password_hash"
              } = json_response(conn, 200)["data"]
     end
 
@@ -62,7 +62,7 @@ defmodule TaskTrackerServerWeb.UserControllerTest do
       assert %{
                "id" => id,
                "name" => "some updated name",
-               "password_hash_string" => "some updated password_hash_string"
+               "password_hash" => "some updated password_hash"
              } = json_response(conn, 200)["data"]
     end
 

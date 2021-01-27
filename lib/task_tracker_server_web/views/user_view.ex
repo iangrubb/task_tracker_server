@@ -13,6 +13,6 @@ defmodule TaskTrackerServerWeb.UserView do
   def render("user.json", %{user: user}) do
     %{id: user.id,
       name: user.name,
-      password_hash_string: user.password_hash_string}
+      password_hash: user.password_hash}
   end
 end

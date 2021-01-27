@@ -6,10 +6,10 @@ defmodule TaskTrackerServerWeb.TaskLogController do
 
   action_fallback TaskTrackerServerWeb.FallbackController
 
-  # def index(conn, _params) do
-  #   task_logs = Work.list_task_logs()
-  #   render(conn, "index.json", task_logs: task_logs)
-  # end
+  def index(conn, _params) do
+    task_logs = Work.list_task_logs()
+    render(conn, "index.json", task_logs: task_logs)
+  end
 
   def create(conn, %{"task_log" => task_log_params}) do
     with {:ok, %TaskLog{} = task_log} <- Work.create_task_log(task_log_params) do
@@ -20,10 +20,10 @@ defmodule TaskTrackerServerWeb.TaskLogController do
     end
   end
 
-  # def show(conn, %{"id" => id}) do
-  #   task_log = Work.get_task_log!(id)
-  #   render(conn, "show.json", task_log: task_log)
-  # end
+  def show(conn, %{"id" => id}) do
+    task_log = Work.get_task_log!(id)
+    render(conn, "show.json", task_log: task_log)
+  end
 
   # def update(conn, %{"id" => id, "task_log" => task_log_params}) do
   #   task_log = Work.get_task_log!(id)
