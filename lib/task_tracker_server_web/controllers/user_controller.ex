@@ -1,8 +1,8 @@
 defmodule TaskTrackerServerWeb.UserController do
   use TaskTrackerServerWeb, :controller
 
-  alias TaskTrackerServer.Accounts
-  alias TaskTrackerServer.Accounts.User
+  # alias TaskTrackerServer.Accounts
+  # alias TaskTrackerServer.Accounts.User
 
   action_fallback TaskTrackerServerWeb.FallbackController
 
