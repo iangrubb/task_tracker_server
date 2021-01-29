@@ -35,6 +35,10 @@ defmodule TaskTrackerServerWeb.Router do
     resources "/customers", CustomerController, only: [:index, :show, :create, :update, :delete]
     resources "/projects", ProjectController, only: [:index, :show, :create, :update, :delete]
     resources "/tasks", TaskController, only: [:index, :show, :create, :update, :delete]
+
+    get "/task_logs/active_task", TaskLogController, :active_task
+    post "/task_logs/start", TaskLogController, :start_log
+    patch "/task_logs/:id/finish", TaskLogController, :finish_log
     resources "/task_logs", TaskLogController, only: [:index, :show, :create]
 
     resources "/session", SessionController, only: [:delete], singleton: true

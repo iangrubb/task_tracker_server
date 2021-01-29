@@ -7,14 +7,12 @@ defmodule TaskTrackerServerWeb.TaskView do
     %{data: render_many(tasks, TaskView, "task.json")}
   end
 
-
   def render("show.json", %{task: task}) do
     %{data: render_one(task, TaskView, "task.json")}
   end
 
-
   def render("task.json", %{task: task}) do
-    %{id: task.id, description: task.description, task_logs: TaskLogView.render("index.json", %{task_logs: task.task_logs})}
+    %{id: task.id, description: task.description}
   end
 
 end

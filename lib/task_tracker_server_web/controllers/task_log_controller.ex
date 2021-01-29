@@ -26,19 +26,30 @@ defmodule TaskTrackerServerWeb.TaskLogController do
     render(conn, "show.json", task_log: task_log)
   end
 
-  # def update(conn, %{"id" => id, "task_log" => task_log_params}) do
-  #   task_log = Work.get_task_log!(id)
+  def active_task(%{assigns: %{current_user: current_user}} = conn, _params) do
+    case Work.get_current_task_log(current_user.id) do
+      nil ->
+        render(conn, "none.json", %{})
+      task_log ->
+        task_log = Work.task_log_with_belongs(task_log.id)
+        render(conn, "show.json", task_log: task_log)
+    end
+  end
 
-  #   with {:ok, %TaskLog{} = task_log} <- Work.update_task_log(task_log, task_log_params) do
-  #     render(conn, "show.json", task_log: task_log)
-  #   end
-  # end
+  def start_log(conn, %{"task_log" => task_log_params}) do
+    {:ok, task_log} = Work.start_task_log(task_log_params)
+    task_log = Work.task_log_with_belongs(task_log.id)
+    render(conn, "show.json", task_log: task_log)
+  end
 
-  # def delete(conn, %{"id" => id}) do
-  #   task_log = Work.get_task_log!(id)
+  def finish_log(conn, %{"id" => id}) do
 
-  #   with {:ok, %TaskLog{}} <- Work.delete_task_log(task_log) do
-  #     send_resp(conn, :no_content, "")
-  #   end
-  # end
+    task_log = Work.get_task_log!(id)
+
+    with {:ok, %TaskLog{} = task_log} <- Work.finish_task_log(task_log) do
+      task_log = Work.task_log_with_belongs(task_log.id)
+      render(conn, "show.json", task_log: task_log)
+    end
+  end
+
 end

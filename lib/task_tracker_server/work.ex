@@ -55,6 +55,35 @@ defmodule TaskTrackerServer.Work do
     |> Repo.insert()
   end
 
+  def task_log_with_belongs(task_log_id) do
+    TaskLog
+    |> Repo.get!(task_log_id)
+    |> Repo.preload([task: [project: :customer]])
+  end
+
+  def get_current_task_log(user_id) do
+
+    query =
+      from t in TaskLog,
+      where: t.user_id == ^user_id,
+      where: is_nil(t.end_time),
+      limit: 1
+
+    Repo.one(query)
+  end
+
+  def start_task_log(attrs \\ %{}) do
+    %TaskLog{}
+    |> TaskLog.changeset(Map.put(attrs, "start_time", NaiveDateTime.local_now()))
+    |> Repo.insert()
+  end
+
+  def finish_task_log(%TaskLog{} = task_log) do
+    task_log
+    |> TaskLog.changeset(%{end_time: NaiveDateTime.local_now()})
+    |> Repo.update()
+  end
+
   @doc """
   Updates a task_log.
 
