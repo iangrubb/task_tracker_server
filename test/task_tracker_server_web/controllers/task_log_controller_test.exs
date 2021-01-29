@@ -50,7 +50,10 @@ defmodule TaskTrackerServerWeb.TaskLogControllerTest do
   describe "update task_log" do
     setup [:create_task_log]
 
-    test "renders task_log when data is valid", %{conn: conn, task_log: %TaskLog{id: id} = task_log} do
+    test "renders task_log when data is valid", %{
+      conn: conn,
+      task_log: %TaskLog{id: id} = task_log
+    } do
       conn = put(conn, Routes.task_log_path(conn, :update, task_log), task_log: @update_attrs)
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 

@@ -11,7 +11,6 @@ defmodule TaskTrackerServerWeb.TaskView do
   end
 
   def render("task.json", %{task: task}) do
-    %{id: task.id,
-      description: task.description}
+    %{id: task.id, description: task.description}
   end
 end

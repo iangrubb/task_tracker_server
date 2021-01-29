@@ -11,7 +11,6 @@ defmodule TaskTrackerServerWeb.CustomerView do
   end
 
   def render("customer.json", %{customer: customer}) do
-    %{id: customer.id,
-      name: customer.name}
+    %{id: customer.id, name: customer.name}
   end
 end

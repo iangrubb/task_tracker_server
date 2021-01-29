@@ -11,7 +11,6 @@ defmodule TaskTrackerServerWeb.TaskLogView do
   end
 
   def render("task_log.json", %{task_log: task_log}) do
-    %{id: task_log.id,
-      duration_minutes: task_log.duration_minutes}
+    %{id: task_log.id, duration_minutes: task_log.duration_minutes}
   end
 end

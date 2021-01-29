@@ -3,8 +3,10 @@ defmodule TaskTrackerServer.Accounts.User do
   import Ecto.Changeset
 
   schema "users" do
-    field :name, :string
-    field :password_hash, :string
+    field :name, :string, null: false
+    field :password_hash, :string, null: false
+    field :password, :string, virtual: true, redact: true
+    field :raw_session_token, :integer, default: 1
 
     timestamps()
   end
@@ -12,8 +14,17 @@ defmodule TaskTrackerServer.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:name, :password_hash])
-    |> validate_required([:name, :password_hash])
+    |> cast(attrs, [:name, :password])
+    |> validate_required([:name, :password])
     |> unique_constraint(:name)
+    |> hash_password()
+  end
+
+  defp hash_password(%Ecto.Changeset{valid?: true, changes: %{password: password}} = changeset) do
+    change(changeset, Bcrypt.add_hash(password))
+  end
+
+  defp hash_password(changeset) do
+    changeset
   end
 end

@@ -10,9 +10,15 @@ defmodule TaskTrackerServerWeb.UserView do
     %{data: render_one(user, UserView, "user.json")}
   end
 
-  def render("user.json", %{user: user}) do
-    %{id: user.id,
-      name: user.name,
-      password_hash: user.password_hash}
+  def render("show_current.json", %{user: user, auth_token: auth_token}) do
+    %{data: %{
+      user: render_one(user, UserView, "user.json"),
+      auth_token: auth_token
+    }}
   end
+
+  def render("user.json", %{user: user}) do
+    %{id: user.id, name: user.name}
+  end
+
 end

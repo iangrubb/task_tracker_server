@@ -7,6 +7,5 @@ defmodule TaskTrackerServer.Repo.Migrations.CreateCustomers do
 
       timestamps()
     end
-
   end
 end

@@ -1,19 +1,73 @@
 defmodule TaskTrackerServerWeb.Router do
   use TaskTrackerServerWeb, :router
 
+  alias TaskTrackerServer.Accounts
+
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+  end
+
+  pipeline :auto_login do
+    plug :check_login_token
+  end
+
+  pipeline :authenticate do
+    plug :check_auth_token
   end
 
   scope "/api", TaskTrackerServerWeb do
     pipe_through :api
 
+    resources "/session", SessionController, only: [:create], singleton: true
+    resources "/users", UserController, only: [:create]
+  end
+
+  scope "/api", TaskTrackerServerWeb do
+    pipe_through [:api, :auto_login]
+
+    resources "/session", SessionController, only: [:show], singleton: true
+  end
+
+  scope "/api", TaskTrackerServerWeb do
+    pipe_through [:api, :authenticate]
+
     resources "/customers", CustomerController, only: [:index, :show, :create, :update, :delete]
     resources "/projects", ProjectController, only: [:index, :show, :create, :update, :delete]
     resources "/tasks", TaskController, only: [:index, :show, :create, :update, :delete]
     resources "/task_logs", TaskLogController, only: [:index, :show, :create]
-    resources "/users", UserController, only: [:index, :show]
+
+    resources "/session", SessionController, only: [:delete], singleton: true
   end
+
+  def check_login_token(conn, _opts) do
+    case get_session(conn, :login_token) do
+      nil -> conn
+      token ->
+        case Accounts.get_user_from_login_token(token) do
+          {:ok, user} ->
+            assign(conn, :current_user, user)
+          _ -> conn
+        end
+    end
+  end
+
+  def check_auth_token(conn, _opts) do
+    case get_req_header(conn, "authorization") do
+      ["Bearer " <> token] ->
+
+        case Accounts.get_user_from_auth_token(token) do
+          {:ok, user} ->
+            assign(conn, :current_user, user)
+          {:error, _error} ->
+            conn
+        end
+
+      _ ->
+        conn
+    end
+  end
+
 
   # Enables LiveDashboard only for development
   #
