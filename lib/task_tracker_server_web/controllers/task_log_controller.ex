@@ -12,6 +12,7 @@ defmodule TaskTrackerServerWeb.TaskLogController do
   end
 
   def create(conn, %{"task_log" => task_log_params}) do
+
     with {:ok, %TaskLog{} = task_log} <- Work.create_task_log(task_log_params) do
       conn
       |> put_status(:created)

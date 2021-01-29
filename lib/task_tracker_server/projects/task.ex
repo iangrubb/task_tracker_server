@@ -5,6 +5,7 @@ defmodule TaskTrackerServer.Projects.Task do
   schema "tasks" do
     field :description, :string
     belongs_to :project, TaskTrackerServer.Projects.Project
+    has_many :task_logs, TaskTrackerServer.Work.TaskLog
 
     timestamps()
   end

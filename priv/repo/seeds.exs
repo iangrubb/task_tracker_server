@@ -12,13 +12,12 @@
 
 alias TaskTrackerServer.Customers
 alias TaskTrackerServer.Projects
-alias TaskTrackerServer.Work
 
 Enum.each(1..5, fn _ ->
   with {:ok, customer} <- Customers.create_customer(%{name: Faker.Company.name()}) do
     Enum.each(1..5, fn _ ->
       with {:ok, project} <-
-             Projects.create_project(%{name: Faker.Company.bs(), company_id: customer.id}) do
+             Projects.create_project(%{name: Faker.Company.bs(), customer_id: customer.id}) do
         Enum.each(1..10, fn _ ->
           Projects.create_task(%{description: Faker.Company.bs(), project_id: project.id})
         end)

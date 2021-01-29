@@ -37,7 +37,7 @@ defmodule TaskTrackerServerWeb.CustomerController do
     customer = Customers.get_customer!(id)
 
     with {:ok, %Customer{}} <- Customers.delete_customer(customer) do
-      send_resp(conn, :no_content, "")
+      send_resp(conn, :accepted, id)
     end
   end
 end

@@ -13,6 +13,10 @@ defmodule TaskTrackerServerWeb.TaskController do
 
   def create(conn, %{"task" => task_params}) do
     with {:ok, %Task{} = task} <- Projects.create_task(task_params) do
+
+      # refetching to get associated data, there should be a better way to do this
+      task = Projects.get_task!(task.id)
+
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.task_path(conn, :show, task))
@@ -29,6 +33,9 @@ defmodule TaskTrackerServerWeb.TaskController do
     task = Projects.get_task!(id)
 
     with {:ok, %Task{} = task} <- Projects.update_task(task, task_params) do
+
+      # refetching to get associated data, there should be a better way to do this
+      task = Projects.get_task!(task.id)
       render(conn, "show.json", task: task)
     end
   end
@@ -37,7 +44,7 @@ defmodule TaskTrackerServerWeb.TaskController do
     task = Projects.get_task!(id)
 
     with {:ok, %Task{}} <- Projects.delete_task(task) do
-      send_resp(conn, :no_content, "")
+      send_resp(conn, :accepted, id)
     end
   end
 end

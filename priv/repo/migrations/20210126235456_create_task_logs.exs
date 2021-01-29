@@ -4,8 +4,8 @@ defmodule TaskTrackerServer.Repo.Migrations.CreateTaskLogs do
   def change do
     create table(:task_logs) do
       add :duration_minutes, :integer
-      add :user_id, references(:users, on_delete: :nothing)
-      add :task_id, references(:tasks, on_delete: :nothing), null: false
+      add :user_id, references(:users, on_delete: :delete_all), null: false
+      add :task_id, references(:tasks, on_delete: :delete_all), null: false
 
       timestamps()
     end

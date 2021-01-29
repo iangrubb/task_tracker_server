@@ -7,10 +7,15 @@ defmodule TaskTrackerServer.Accounts.User do
     field :password_hash, :string, null: false
     field :password, :string, virtual: true, redact: true
     field :raw_session_token, :integer, default: 1
+    has_many :task_logs, TaskTrackerServer.Work.TaskLog
 
     timestamps()
   end
 
+  @spec changeset(
+          {map, map} | %{:__struct__ => atom | %{__changeset__: map}, optional(atom) => any},
+          :invalid | %{optional(:__struct__) => none, optional(atom | binary) => any}
+        ) :: Ecto.Changeset.t()
   @doc false
   def changeset(user, attrs) do
     user

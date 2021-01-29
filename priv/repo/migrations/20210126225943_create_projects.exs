@@ -4,7 +4,7 @@ defmodule TaskTrackerServer.Repo.Migrations.CreateProjects do
   def change do
     create table(:projects) do
       add :name, :string
-      add :customer_id, references(:customers, on_delete: :nothing)
+      add :customer_id, references(:customers, on_delete: :delete_all), null: false
 
       timestamps()
     end

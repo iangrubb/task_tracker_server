@@ -53,19 +53,17 @@ defmodule TaskTrackerServerWeb.Router do
   end
 
   def check_auth_token(conn, _opts) do
-    case get_req_header(conn, "authorization") do
-      ["Bearer " <> token] ->
 
-        case Accounts.get_user_from_auth_token(token) do
-          {:ok, user} ->
-            assign(conn, :current_user, user)
-          {:error, _error} ->
-            conn
-        end
-
+    with ["Bearer " <> token] <- get_req_header(conn, "authorization"),
+    {:ok, user} <- Accounts.get_user_from_auth_token(token) do
+      assign(conn, :current_user, user)
+    else
       _ ->
         conn
+        |> send_resp(401, "Unauthorized")
+        |> halt()
     end
+
   end
 
 

@@ -18,7 +18,9 @@ defmodule TaskTrackerServer.Projects do
 
   """
   def list_projects do
-    Repo.all(Project)
+    Project
+    |> Repo.all()
+    |> Repo.preload(:customer)
   end
 
   @doc """
@@ -35,7 +37,12 @@ defmodule TaskTrackerServer.Projects do
       ** (Ecto.NoResultsError)
 
   """
-  def get_project!(id), do: Repo.get!(Project, id)
+  def get_project!(id) do
+    Project
+    |> Repo.get!(id)
+    |> Repo.preload([:customer, [tasks: :task_logs]])
+  end
+
 
   @doc """
   Creates a project.
@@ -131,7 +138,11 @@ defmodule TaskTrackerServer.Projects do
       ** (Ecto.NoResultsError)
 
   """
-  def get_task!(id), do: Repo.get!(Task, id)
+  def get_task!(id) do
+    Task
+    |> Repo.get!(id)
+    |> Repo.preload(:task_logs)
+  end
 
   @doc """
   Creates a task.
